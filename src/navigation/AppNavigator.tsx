@@ -4,7 +4,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../screens/Home';
 import LoginScreen from '../screens/Login';
+import ArticleScreen from '../screens/Article';
+// import SearchResultsScreen from '../styles/SearchResults';
 import { Ionicons } from '@expo/vector-icons';
+import tabBarStyles from '../styles/TabBarStyles';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -31,10 +34,17 @@ const TabNavigator = () => (
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
+      tabBarActiveTintColor: 'black', 
+      tabBarInactiveTintColor: 'gray',  
+      tabBarStyle: {
+        backgroundColor: '#f5f5f5',  
+        borderTopColor: '#eee',  
+      },
+      tabBarStyle: tabBarStyles.tabBar,
     })}
   >
     <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-    <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }}/>
+    <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
   </Tab.Navigator>
 );
 
@@ -42,7 +52,8 @@ const StackNavigator = () => (
   <Stack.Navigator initialRouteName="Home">
     <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
     {/* <Stack.Screen name="SearchResults" component={SearchResultsScreen} /> */}
-    <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Article" component={ArticleScreen}/>
   </Stack.Navigator>
 );
 
