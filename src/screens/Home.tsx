@@ -9,9 +9,14 @@ import {
   LogoImage,
   Title, 
   TitleContainer,
+  SearchContainer,
+  SearchInput,
+  SearchIcon,
 } from '../styles/HomeStyles';
-import { getTopHeadlines } from '../services/NewsServices';
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+
+
+import { getTopHeadlines } from '../services/NewsServices';
 
 interface Article {
   title: string;
@@ -28,6 +33,7 @@ interface Article {
 const HomeScreen = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigation = useNavigation<HomeScreenNavigationProp>();
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -69,6 +75,12 @@ const HomeScreen = () => {
             author={item.author}
             description={item.description}
             imageUrl={item.urlToImage}
+            onPress={() => navigation.navigate('Article', {
+              title: item.title,
+              author: item.author,
+              content: item.content,
+              url: item.url,
+            })}
           />
         )}
       />
