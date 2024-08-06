@@ -1,32 +1,80 @@
-import React from 'react';
-import { ScrollView } from 'react-native';
+import React, { useEffect, useState }  from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { SafeAreaView, ScrollView, StyleSheet, FlatList, Text } from 'react-native';
 import Card from '../components/Card';
-import { HomeContainer, CardColumn } from '../styles/HomeStyles';
+import { 
+  HomeContainer, 
+  LogoImage,
+  Title, 
+  TitleContainer,
+} from '../styles/HomeStyles';
+import { getTopHeadlines } from '../services/NewsServices';
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
-const Home: React.FC = () => {
+interface Article {
+  title: string;
+  source: {
+    name: string;
+  };
+  author: string;
+  description: string;
+  content: string;
+  urlToImage: string;
+  url: string;
+}
+
+const HomeScreen = () => {
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const news = await getTopHeadlines();
+        setArticles(news);
+        console.log( news)
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  if (loading) {
+    return (
+      <HomeContainer>
+        <Text>Loading...</Text>
+      </HomeContainer>
+    );
+  }
+
   return (
     <HomeContainer>
-      <ScrollView>
-        <CardColumn>
-          <Card 
-            title="[Título]" 
-            author="Nome da pessoa" 
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus justo eros, suscipit quis cursus sed, dictum ac dui. Integer massa dui, facilisis a ipsum facilisis, tristique fringilla tellus."
+      <TitleContainer>
+        <LogoImage source={require('../../assets/logo.png')} />
+        <Title>News Explorer</Title>
+      </TitleContainer>
+
+      <FlatList
+        data={articles}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Card
+            title={item.title}
+            author={item.author}
+            description={item.description}
+            imageUrl={item.urlToImage}
           />
-          <Card 
-            title="[Título]" 
-            author="Nome da pessoa" 
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus justo eros, suscipit quis cursus sed, dictum ac dui. Integer massa dui, facilisis a ipsum facilisis, tristique fringilla tellus."
-          />
-          <Card 
-            title="[Título]" 
-            author="Nome da pessoa" 
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus justo eros, suscipit quis cursus sed, dictum ac dui. Integer massa dui, facilisis a ipsum facilisis, tristique fringilla tellus."
-          />
-        </CardColumn>
-      </ScrollView>
+        )}
+      />
     </HomeContainer>
   );
 };
 
-export default Home;
+
+export default HomeScreen;

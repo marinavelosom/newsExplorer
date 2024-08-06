@@ -1,6 +1,4 @@
 import React from 'react';
-import { Linking, ImageBackground } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { 
   CardContainer, 
   CardImage, 
@@ -20,12 +18,12 @@ interface CardProps {
   imageUrl: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, author, description, imageUrl }) => {
+const Card: React.FC<CardProps> = ({ title, author, description, imageUrl}) => {
 
   return (
     <CardContainer>
       <CardContent>
-        <CardImage />
+        <CardImage source={{url: {imageUrl}}} defaultSource={require('../../assets/adaptive-icon.png')} />
         <Header>
           <Title>{title}</Title>
           <TextFixed>By</TextFixed>
