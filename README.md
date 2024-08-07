@@ -43,7 +43,7 @@ App desenvolvido com React Native, com o objetivo de mostrar notícias da News A
 
 ## Uso
 
-Descreva como usar o seu projeto após a instalação. Inclua exemplos de código e capturas de tela, se necessário.
+Com o App rodando, na home leia as principais notícias do dia ou pesquisa uma pesquisa que deseja. 
 
 ## Scripts Disponíveis
 
