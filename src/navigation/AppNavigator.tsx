@@ -51,7 +51,6 @@ const TabNavigator = () => (
 const StackNavigator = () => (
   <Stack.Navigator initialRouteName="Home">
     <Stack.Screen name="Home" component={TabNavigator} options={{ headerShown: false }} />
-    {/* <Stack.Screen name="SearchResults" component={SearchResultsScreen} /> */}
     <Stack.Screen name="Login" component={LoginScreen} />
     <Stack.Screen name="Article" component={ArticleScreen}/>
   </Stack.Navigator>
